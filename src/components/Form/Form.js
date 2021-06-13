@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import shortid from "shortid";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import shortid from 'shortid';
+import PropTypes from 'prop-types';
+import styles from '../Form/Form.module.css';
 
 class Form extends Component {
   static propTypes = {
@@ -9,15 +10,15 @@ class Form extends Component {
   };
 
   state = {
-    name: "",
-    number: "",
-    id: "",
+    name: '',
+    number: '',
+    id: '',
   };
 
   nameInputId = shortid.generate();
   numberInputId = shortid.generate();
 
-  handleChange = (e) => {
+  handleChange = e => {
     const { name, value } = e.target;
 
     this.setState({
@@ -26,11 +27,11 @@ class Form extends Component {
     });
   };
 
-  findByName = (name) => {
+  findByName = name => {
     return this.props.contacts.some(([elem]) => elem === name);
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
 
     const { name, number, id } = this.state;
@@ -45,8 +46,8 @@ class Form extends Component {
 
   reset = () => {
     this.setState({
-      name: "",
-      number: "",
+      name: '',
+      number: '',
     });
   };
 
@@ -54,10 +55,11 @@ class Form extends Component {
     const { name, number } = this.state;
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor={this.nameInputId}>
+        <form onSubmit={this.handleSubmit} className={styles.conteiner}>
+          <label htmlFor={this.nameInputId} className={styles.label}>
             Name
             <input
+              className={styles.input}
               type="text"
               name="name"
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -69,9 +71,10 @@ class Form extends Component {
             />
           </label>
 
-          <label htmlFor={this.numberInputId}>
+          <label htmlFor={this.numberInputId} className={styles.label}>
             Number
             <input
+              className={styles.input}
               type="tel"
               name="number"
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -83,7 +86,9 @@ class Form extends Component {
             />
           </label>
 
-          <button type="submit">Add contact</button>
+          <button className={styles.btn} type="submit">
+            Add contact
+          </button>
         </form>
       </>
     );
