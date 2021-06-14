@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Contacts from './Contacts/Contacts';
 import Form from './Form/Form';
-// import Filter from './Filter/Filter';
+import Filter from './Filter/Filter';
 import styles from './App.module.css';
 import shortid from 'shortid';
 
@@ -21,14 +21,36 @@ class App extends Component {
     this.setState(({ contacts }) => ({ contacts: [...contacts, contact] }));
   };
 
+  changeFilter = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
+
+  getVisibleContacts = () => {
+    const { filter, contacts } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+
+    return contacts.filter(({ name }) => {
+      return name.toLowerCase().includes(normalizedFilter);
+    });
+  };
+
+  filterContacts = () => {
+    const { filter, contacts } = this.state;
+    const normalizeFilter = filter.toLowerCase();
+    return contacts.filter(({ name }) => {
+      return name.toLowerCase().includes(normalizeFilter);
+    });
+  };
+
   render() {
+    const { filter } = this.state;
     return (
       <div className={styles.conteiner}>
         <h1 className={styles.title}>Phonebook</h1>
         <Form onSubmit={this.addContact} />
         <h2 className={styles.secondTitle}>Contacts</h2>
-        {/* <Filter /> */}
-        <Contacts contacts={this.state.contacts} />
+        <Filter filter={filter} filterContacts={this.changeFilter} />
+        <Contacts contacts={this.getVisibleContacts()} />
       </div>
     );
   }
