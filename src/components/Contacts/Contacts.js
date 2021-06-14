@@ -1,15 +1,16 @@
 import React from 'react';
-import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import styles from '../Contacts/Contacts.module.css';
 
 const Contacts = ({ contacts, onDelete }) => (
   <>
     <ul className={styles.list}>
-      {contacts.map(([name, number, id]) => (
-        <li className={styles.itemContact} key={shortid.generate()}>
-          {name}: {number}
-          <button className={styles.btn} onClick={onDelete.bind(this, id)}>
+      {contacts.map(({ name, id, number }) => (
+        <li className={styles.itemContact} key={id}>
+          <span>
+            {name}: {number}
+          </span>
+          <button className={styles.btn} onClick={onDelete}>
             Delete
           </button>
         </li>

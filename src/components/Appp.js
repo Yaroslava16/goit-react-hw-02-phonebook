@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import shortid from 'shortid';
-import PropTypes from 'prop-types';
-import styles from '../Form/Form.module.css';
+import styles from './App.module.css';
 
-class Form extends Component {
-  static propTypes = {
-    contacts: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-    updateState: PropTypes.func.isRequired,
-  };
-
+class App extends Component {
   state = {
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
     name: '',
     number: '',
     id: '',
@@ -18,15 +19,8 @@ class Form extends Component {
   nameInputId = shortid.generate();
   numberInputId = shortid.generate();
 
-  handleChange = e => {
-    const { name, value } = e.target;
-
-    this.setState({ [name]: value });
-  };
-
   handleSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
     this.reset();
   };
 
@@ -38,9 +32,10 @@ class Form extends Component {
   };
 
   render() {
-    const { name, number } = this.state;
     return (
-      <>
+      <div className={styles.conteiner}>
+        <h1 className={styles.title}>Phonebook</h1>
+
         <form onSubmit={this.handleSubmit} className={styles.conteiner}>
           <label htmlFor={this.nameInputId} className={styles.label}>
             Name
@@ -51,7 +46,7 @@ class Form extends Component {
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
               required
-              value={name}
+              value={this.state.name}
               onChange={this.handleChange}
               id={this.nameInputId}
             />
@@ -66,7 +61,7 @@ class Form extends Component {
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
               title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
               required
-              value={number}
+              value={this.state.number}
               onChange={this.handleChange}
               id={this.numberInputId}
             />
@@ -76,9 +71,10 @@ class Form extends Component {
             Add contact
           </button>
         </form>
-      </>
+        <h2 className={styles.secondTitle}>Contacts</h2>
+      </div>
     );
   }
 }
 
-export default Form;
+export default App;
